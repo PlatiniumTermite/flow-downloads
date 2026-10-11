@@ -1,34 +1,34 @@
 # Flow downloads
 
-Public downloads and setup instructions for the Flow engineering alpha.
+# Flow 0.3 alpha — display quality and Windows sender setup
 
-# Flow for Windows — alpha
+Update **both computers**. Quit the old Flow app from its tray/menu-bar menu before opening this version; closing the window is not enough.
 
-[**Download Flow for Windows x64 (ZIP, approximately 151 MB)**](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.2.0-alpha.20261011/Flow-Windows-x64.zip)
+- [Download Windows x64 ZIP](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.3.0-alpha.20261012/Flow-Windows-x64.zip)
+- [Download Mac Apple-silicon ZIP](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.3.0-alpha.20261012/Flow-Mac-arm64.zip) (M-series Macs; not Intel)
 
-1. Download the ZIP, right-click it and choose **Extract All**.
-2. Open the extracted **win-unpacked** folder and double-click **Flow.exe**. Keep all companion files together. No terminal commands or developer tools are needed.
-3. Connect Windows and your Mac to the same Wi-Fi. Keep the latest Flow app running on both.
-4. **On the Mac:** click **Connect a device → Copy invitation**. Send the copied text privately to the Windows PC.
-5. **On Windows:** open Flow → **Settings (gear) → Join a space**. Paste the **entire invitation copied from the Mac** into **Paste a Flow invitation**, then click **Join space**.
-6. To extend your Mac desktop, select Windows in Flow on the Mac and click **Extend Mac desktop to [device]**. On Windows, accept **Use as display**, then **Full screen**. Use the Mac keyboard and mouse. Exit with **Exit full screen** or Escape; **Stop sharing** ends extension.
+Extract the entire Windows ZIP and open `win-unpacked/Flow.exe`. Extract the Mac ZIP and open the new `Flow.app`. These are development builds without distribution signing/notarization.
 
-## What exactly goes in the Windows box?
+## Pair the computers
 
-Paste your Mac app's complete **private invitation**. It normally looks like `http://192.168.x.x:PORT/#PRIVATE_KEY`, but your app supplies the actual address, port and key. Keep everything after `#`. Do not type the example or invent a key. A complete `flow://join?...#...` invitation is also accepted.
+Use the same Wi-Fi. On the Mac, **Connect a device → Copy invitation**. On Windows, **Settings → Join a space**, paste that complete private invitation, and click **Join space**. Do not paste the GitHub download link. Keep invitations private.
 
-The public download link above is only for downloading the app. **Do not paste the GitHub download link into Join a space.** Paste the invitation inside Flow, not in PowerShell, Command Prompt or a web browser. Share the invitation privately: anyone who has it can join that space.
+## Mac → Windows: create a separate desktop
 
-For clipboard sharing, enable automatic text clipboard sharing in both desktop apps' settings, using your personal device space. Friend sessions keep automatic clipboard sharing disabled.
+Select Windows on the Mac, choose **Resolution** and **Priority**, then **Extend Mac desktop**. Accept **Use as display** on Windows. Move windows to the right of the Mac display with the Mac keyboard/pointer. Full screen provides Exit and Stop controls.
 
-## If connection fails
+New resolutions are **1080p, 1440p and 4K**, each targeting up to 60 fps. Text clarity preserves resolution under load; Smooth motion may downscale. H.264 is preferred with other codecs retained as fallback. Live stats show the codec/encoder, capture FPS, encode/decode time, resource limitations, resolution and received FPS where available.
 
-Keep the Mac app hosting the space open. Avoid guest Wi-Fi that isolates devices. If Windows prompts for firewall access, allow Flow on your trusted private network; do not disable the firewall. A `localhost` or `127.0.0.1` invitation cannot reach another computer. If the Mac changes networks, copy its current invitation again.
+## Windows → Mac: existing extended monitor required
 
-Mac extension may require normal Screen Recording permission and an app restart. Use a current Mac build that shows the **Extend Mac desktop** button. The public download URL does not make a private Wi-Fi pairing invitation work over the internet.
+Windows now offers **Use Windows extended display**. For wireless extension without a spare physical monitor, first install/configure a compatible signed virtual-display driver and choose **Extend these displays** in Windows Display settings. Flow's setup dialog links to the [Virtual Display Driver project](https://github.com/VirtualDrivers/Virtual-Display-Driver). Flow does **not** install or create a Windows virtual monitor automatically.
 
-## Status
+Choose the separate virtual monitor in Flow's native dialog and accept **Use as display** on the Mac. Use the Windows keyboard/pointer. Primary and overlapping/mirrored layouts are excluded; Flow does not substitute mirroring when extension is unavailable. Stopping Flow leaves the externally configured Windows monitor in place. This new Windows sender path requires physical Windows validation.
 
-This is an **unsigned development alpha**. The Windows x64 package was built successfully but has not yet been executed on a physical Windows PC. Mac native virtual-display capture, local video delivery, full-screen controls and cleanup passed tests. Physical Mac-to-Windows wireless performance and end-to-end latency remain unverified. Up to 60 fps is a target, not a guarantee. The Mac virtual-display helper uses experimental private APIs. Windows keyboard/mouse forwarding is not implemented.
+## Validation and limits
 
-`WINDOWS-START-HERE.txt` is included inside the ZIP and attached separately. `SHA256SUMS.txt` contains the archive checksum.
+20 connection unit tests, 11 browser scenarios, native clipboard/helper lifecycle checks, and integrated native 1440p/4K pixel-delivery/full-screen/stop tests passed. The user reported the earlier Windows receiver build works; that is not certification of the new Windows sender.
+
+Short local animated-pattern samples used VideoToolbox H.264. 1440p reached about 60 fps after startup; later 4K samples were 47–50 fps with higher encode time. These are neither sustained Wi-Fi benchmarks nor a guaranteed improvement over a controlled baseline. No 4K60, crash-free, or end-to-end-latency guarantee is made. The Mac virtual display uses experimental private APIs. Flow does not use Apple's Sidecar implementation.
+
+See attached `WINDOWS-START-HERE.txt` and `DISPLAY-SETUP.md`. Checksums are in `SHA256SUMS.txt`.
