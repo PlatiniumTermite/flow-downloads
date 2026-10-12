@@ -1,34 +1,36 @@
 # Flow downloads
 
-# Flow 0.3 alpha — display quality and Windows sender setup
+# Flow 0.3.1 alpha — easier desktop installation
 
-Update **both computers**. Quit the old Flow app from its tray/menu-bar menu before opening this version; closing the window is not enough.
+**Engineering alpha, not production-ready.** Update both computers and quit the old Flow app from its tray/menu-bar menu first.
 
-- [Download Windows x64 ZIP](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.3.0-alpha.20261012/Flow-Windows-x64.zip)
-- [Download Mac Apple-silicon ZIP](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.3.0-alpha.20261012/Flow-Mac-arm64.zip) (M-series Macs; not Intel)
+| Download | Installation |
+| --- | --- |
+| [Windows x64 installer](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.3.1-alpha.1/Flow-0.3.1-alpha.1-Windows-x64-Setup.exe) | Open Setup.exe; installs for your account with Start-menu and desktop shortcuts. |
+| [Apple silicon Mac disk image](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.3.1-alpha.1/Flow-0.3.1-alpha.1-Mac-arm64.dmg) | Open the DMG, drag Flow to Applications, then launch from Applications. |
 
-Extract the entire Windows ZIP and open `win-unpacked/Flow.exe`. Extract the Mac ZIP and open the new `Flow.app`. These are development builds without distribution signing/notarization.
+No Node.js, terminal commands, or ZIP extraction needed. Intel Mac and Windows ARM-native builds are not included. **Windows signing and Mac Developer ID signing/notarization are pending. OS security may warn or block these builds.** Do not disable security controls. These are testing downloads, not a trusted-publisher production release.
 
-## Pair the computers
+## Pair and use
 
-Use the same Wi-Fi. On the Mac, **Connect a device → Copy invitation**. On Windows, **Settings → Join a space**, paste that complete private invitation, and click **Join space**. Do not paste the GitHub download link. Keep invitations private.
+Use the same trusted Wi-Fi. On the hosting Mac: **Connect a device → Copy invitation**. On Windows: **Settings → Join a space**, paste the complete invitation, then **Join space**. Paste into Flow, not PowerShell. Keep the hosting Mac running. Never share your private invitation publicly.
 
-## Mac → Windows: create a separate desktop
+Select the other device to send a file; accept and save it on the receiver. Text clipboard sync is opt-in in each desktop app's settings.
 
-Select Windows on the Mac, choose **Resolution** and **Priority**, then **Extend Mac desktop**. Accept **Use as display** on Windows. Move windows to the right of the Mac display with the Mac keyboard/pointer. Full screen provides Exit and Stop controls.
+For Mac extension: select Windows on the Mac, choose resolution and **Extend Mac desktop**; accept **Use as display** on Windows. Use the Mac keyboard/mouse. Windows sending requires an existing extended monitor or a separately configured virtual-display driver; Flow does not create/install that driver automatically. See [Windows extension setup](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.3.1-alpha.1/WINDOWS-EXTENSION.md).
 
-New resolutions are **1080p, 1440p and 4K**, each targeting up to 60 fps. Text clarity preserves resolution under load; Smooth motion may downscale. H.264 is preferred with other codecs retained as fallback. Live stats show the codec/encoder, capture FPS, encode/decode time, resource limitations, resolution and received FPS where available.
+[Full installation, update and pairing instructions](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.3.1-alpha.1/START-HERE.md). Automatic app updates are not implemented; download the next installer manually and quit Flow before updating. Local app data is retained.
 
-## Windows → Mac: existing extended monitor required
+## Changes and verification
 
-Windows now offers **Use Windows extended display**. For wireless extension without a spare physical monitor, first install/configure a compatible signed virtual-display driver and choose **Extend these displays** in Windows Display settings. Flow's setup dialog links to the [Virtual Display Driver project](https://github.com/VirtualDrivers/Virtual-Display-Driver). Flow does **not** install or create a Windows virtual monitor automatically.
+- Added Windows per-user NSIS installer and Mac drag-to-Applications disk image.
+- Clean staging prevents removed assets being shipped in later packages.
+- Windows notification identity now matches the installer; startup failures show an actionable error.
+- Added packaged-app test and Mac/Windows packaging CI workflow. Hosted CI has not been run from this local workspace.
+- Passed 20 connection tests and 11 browser scenarios, including exact 80 MiB transfer integrity. Workspace typecheck/tests passed.
+- Packaged Mac app passed real pairing, text delivery, clipboard and discovery-toggle checks. DMG checksum and bundled app/helper comparison passed.
+- Production-dependency audit reported zero known advisories at build time; this is not a security audit of Flow or its runtime.
 
-Choose the separate virtual monitor in Flow's native dialog and accept **Use as display** on the Mac. Use the Windows keyboard/pointer. Primary and overlapping/mirrored layouts are excluded; Flow does not substitute mirroring when extension is unavailable. Stopping Flow leaves the externally configured Windows monitor in place. This new Windows sender path requires physical Windows validation.
+The Windows installer was cross-built on Mac; fresh Windows install/upgrade/uninstall and the new sender path need physical-PC validation. The earlier Windows receiver was reported working by the user. Mac virtual display uses private APIs. Display choices target up to 60 fps; no universal 4K60, sustained wireless latency, or crash-free guarantee is established. Interrupted-file resume, individual device revocation, automatic Windows monitor management and broad physical-device acceptance remain unfinished.
 
-## Validation and limits
-
-20 connection unit tests, 11 browser scenarios, native clipboard/helper lifecycle checks, and integrated native 1440p/4K pixel-delivery/full-screen/stop tests passed. The user reported the earlier Windows receiver build works; that is not certification of the new Windows sender.
-
-Short local animated-pattern samples used VideoToolbox H.264. 1440p reached about 60 fps after startup; later 4K samples were 47–50 fps with higher encode time. These are neither sustained Wi-Fi benchmarks nor a guaranteed improvement over a controlled baseline. No 4K60, crash-free, or end-to-end-latency guarantee is made. The Mac virtual display uses experimental private APIs. Flow does not use Apple's Sidecar implementation.
-
-See attached `WINDOWS-START-HERE.txt` and `DISPLAY-SETUP.md`. Checksums are in `SHA256SUMS.txt`.
+SHA-256 hashes for installers and guides are in `SHA256SUMS.txt`. Checksums do not replace OS publisher signatures.
