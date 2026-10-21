@@ -1342,7 +1342,7 @@
         <div class="step reveal" style="--d: 0.08s">
           <div class="n">2</div>
           <h3>They find each other</h3>
-          <p>Same Wi-Fi, then enable <code>Find nearby Flow computers</code> once on each machine.</p>
+          <p>Same Wi-Fi — discovery is already on, like AirDrop. Your other computer just appears.</p>
         </div>
         <div class="step reveal" style="--d: 0.16s">
           <div class="n">3</div>
@@ -1862,18 +1862,18 @@
         function stepNearby() {
           sayAll([
             step(5, "Let them see each other"),
-            "In Flow on <b>each</b> computer, open <code>Settings</code> and switch on <code>Find nearby Flow computers</code> — just once, it remembers.",
+            "Nothing to configure — nearby discovery is already on in Flow, like AirDrop. Both computers just need to be running Flow on the same Wi-Fi.",
           ]).then(function () {
             options([
-              { label: "Enabled on both ✓", primary: true, go: stepPair },
-              { label: "Can't find that setting", go: helpNearby },
+              { label: "Both running ✓", primary: true, go: stepPair },
+              { label: "I turned discovery off", go: helpNearby },
             ]);
           });
         }
 
         function helpNearby() {
           say(
-            "It's in the Flow app's <code>Settings</code> section — the same window, lower down. The toggle is labelled <code>Find nearby Flow computers</code>. It stays off until you choose it; your invitation secret is never broadcast either way.",
+            "No problem — it's in Flow's <code>Settings</code>, the <code>Find nearby Flow computers</code> switch. Turn it back on; it stays on until you choose otherwise, and your invitation secret is never broadcast either way.",
           ).then(function () {
             options([
               { label: "Found it ✓", primary: true, go: stepPair },
