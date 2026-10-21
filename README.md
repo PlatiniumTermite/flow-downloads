@@ -1,6 +1,6 @@
 # Flow downloads
 
-**[Download Flow →](https://platiniumtermite.github.io/flow-downloads/)**
+**[Download Flow →](https://platiniumtermite.github.io)**
 
 Flow shares files, folders, text, links, clipboard and screens wirelessly between your computers — like AirDrop, for Mac and Windows.
 
