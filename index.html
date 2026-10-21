@@ -14,10 +14,12 @@
       :root {
         --blue: #0674ed;
         --blue-deep: #0058c7;
-        --ink: #202124;
-        --muted: #72767e;
-        --line: #e6e7ea;
-        --card: #ffffff;
+        --violet: #7c3aed;
+        --ink: #1d1d1f;
+        --muted: #6e6e73;
+        --line: #e8e8ea;
+        --card: rgba(255, 255, 255, 0.72);
+        --ease: cubic-bezier(0.22, 1, 0.36, 1);
       }
       * {
         box-sizing: border-box;
@@ -28,21 +30,127 @@
       }
       body {
         font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+          -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+          "Segoe UI", Roboto, Inter, sans-serif;
         color: var(--ink);
-        background: #fafafa;
+        background: #fbfbfd;
         -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
         overflow-x: hidden;
       }
 
-      .aurora {
+      /* ---------- ambient ---------- */
+      .ambient {
         position: fixed;
         inset: 0;
-        z-index: -1;
-        background:
-          radial-gradient(38rem 30rem at 12% -8%, #0674ed1a, transparent 60%),
-          radial-gradient(34rem 28rem at 88% 6%, #7c3aed14, transparent 60%),
-          radial-gradient(30rem 24rem at 50% 110%, #0674ed10, transparent 60%);
+        z-index: -2;
+        overflow: hidden;
+      }
+      .ambient i {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(90px);
+        opacity: 0.5;
+      }
+      .ambient i.a {
+        width: 44rem;
+        height: 40rem;
+        left: -10rem;
+        top: -14rem;
+        background: radial-gradient(circle, #0674ed26, transparent 65%);
+        animation: drift-a 26s ease-in-out infinite alternate;
+      }
+      .ambient i.b {
+        width: 40rem;
+        height: 36rem;
+        right: -12rem;
+        top: -6rem;
+        background: radial-gradient(circle, #7c3aed1f, transparent 65%);
+        animation: drift-b 32s ease-in-out infinite alternate;
+      }
+      .ambient i.c {
+        width: 34rem;
+        height: 30rem;
+        left: 32%;
+        bottom: -18rem;
+        background: radial-gradient(circle, #0ea5e914, transparent 65%);
+        animation: drift-c 38s ease-in-out infinite alternate;
+      }
+      @keyframes drift-a {
+        to {
+          transform: translate(7rem, 5rem) scale(1.12);
+        }
+      }
+      @keyframes drift-b {
+        to {
+          transform: translate(-6rem, 7rem) scale(1.08);
+        }
+      }
+      @keyframes drift-c {
+        to {
+          transform: translate(-5rem, -6rem) scale(1.15);
+        }
+      }
+
+      /* ---------- frosted nav ---------- */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+        background: rgba(251, 251, 253, 0.72);
+        transition: box-shadow 0.35s var(--ease);
+      }
+      nav.scrolled {
+        box-shadow: 0 1px 0 var(--line);
+      }
+      .nav-in {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: -0.02em;
+      }
+      .brand img {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px #0674ed30;
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .badge {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        color: var(--blue-deep);
+        background: #0674ed10;
+        border: 1px solid #0674ed22;
+        padding: 5px 12px;
+        border-radius: 999px;
+      }
+      .nav-link {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .nav-link:hover {
+        color: var(--ink);
       }
 
       .wrap {
@@ -51,92 +159,357 @@
         padding: 0 24px;
       }
 
-      header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 22px 0;
+      /* ---------- reveal ---------- */
+      .reveal {
+        opacity: 0;
+        transform: translateY(26px);
+        transition:
+          opacity 0.9s var(--ease),
+          transform 0.9s var(--ease);
+        transition-delay: var(--d, 0s);
       }
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-weight: 700;
-        font-size: 19px;
-        letter-spacing: -0.02em;
-      }
-      .brand img {
-        width: 34px;
-        height: 34px;
-        border-radius: 9px;
-      }
-      .badge {
-        font-size: 12.5px;
-        font-weight: 600;
-        color: var(--blue-deep);
-        background: #0674ed12;
-        border: 1px solid #0674ed26;
-        padding: 6px 12px;
-        border-radius: 999px;
+      .reveal.in {
+        opacity: 1;
+        transform: none;
       }
 
+      /* ---------- hero ---------- */
       .hero {
         text-align: center;
-        padding: 64px 0 72px;
+        padding: 84px 0 40px;
+      }
+      .eyebrow {
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: linear-gradient(100deg, var(--blue), var(--violet));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 18px;
       }
       .hero h1 {
-        font-size: clamp(34px, 6vw, 58px);
-        letter-spacing: -0.035em;
-        line-height: 1.05;
+        font-size: clamp(38px, 6.4vw, 64px);
+        letter-spacing: -0.04em;
+        line-height: 1.04;
         font-weight: 750;
       }
       .hero h1 span {
-        background: linear-gradient(100deg, var(--blue), #7c3aed);
+        background: linear-gradient(105deg, var(--blue) 15%, var(--violet) 85%);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
       }
       .hero p.sub {
-        margin: 20px auto 0;
-        max-width: 560px;
-        font-size: 18px;
+        margin: 22px auto 0;
+        max-width: 580px;
+        font-size: 19px;
         line-height: 1.55;
         color: var(--muted);
       }
 
-      .dl-zone {
-        margin-top: 40px;
+      /* ---------- device flow visual ---------- */
+      .stage {
+        position: relative;
+        margin: 56px auto 8px;
+        width: min(680px, 92vw);
+        height: 230px;
+      }
+      .dev {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 148px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 14px;
+        gap: 10px;
+        animation: float 7s ease-in-out infinite;
       }
-      #dl {
+      .dev.left {
+        left: 12px;
+      }
+      .dev.right {
+        right: 12px;
+        animation-delay: -3.5s;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(-52%);
+        }
+        50% {
+          transform: translateY(-47%);
+        }
+      }
+      .screen {
+        width: 148px;
+        height: 96px;
+        border-radius: 14px;
+        background: linear-gradient(160deg, #ffffff, #eef0f4);
+        border: 1px solid #ffffff;
+        box-shadow:
+          0 18px 44px -12px rgba(31, 38, 71, 0.22),
+          inset 0 0 0 1px var(--line);
+        display: grid;
+        place-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .screen::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(115deg, transparent 30%, #ffffff70 48%, transparent 62%);
+        transform: translateX(-120%);
+        animation: sheen 6s ease-in-out infinite;
+      }
+      @keyframes sheen {
+        0%,
+        55% {
+          transform: translateX(-120%);
+        }
+        80%,
+        100% {
+          transform: translateX(120%);
+        }
+      }
+      .dev .base {
+        width: 92px;
+        height: 5px;
+        border-radius: 4px;
+        background: #d8dae0;
+      }
+      .dev.right .base {
+        width: 60px;
+        height: 26px;
+        border-radius: 6px;
+        margin-top: -6px;
+      }
+      .os-dot {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        background: #fff;
+        box-shadow:
+          0 6px 16px -4px rgba(31, 38, 71, 0.18),
+          inset 0 0 0 1px var(--line);
+      }
+      .os-dot svg {
+        width: 18px;
+        height: 18px;
+      }
+      .dev .name {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+
+      /* radar pulse behind each device */
+      .pulse {
+        position: absolute;
+        top: 50%;
+        width: 150px;
+        height: 150px;
+        transform: translateY(-50%);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+      .pulse.left {
+        left: 11px;
+      }
+      .pulse.right {
+        right: 11px;
+      }
+      .pulse::before,
+      .pulse::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 1.5px solid #0674ed;
+        opacity: 0;
+        animation: radar 4.5s ease-out infinite;
+      }
+      .pulse::after {
+        animation-delay: 2.25s;
+      }
+      @keyframes radar {
+        0% {
+          transform: scale(0.55);
+          opacity: 0.5;
+        }
+        100% {
+          transform: scale(1.5);
+          opacity: 0;
+        }
+      }
+
+      /* the beam + flying payloads */
+      .beam {
+        position: absolute;
+        left: 170px;
+        right: 170px;
+        top: 50%;
+        height: 2px;
+        transform: translateY(-50%);
+        background: linear-gradient(90deg, transparent, #0674ed3d 18%, #7c3aed3d 82%, transparent);
+        border-radius: 2px;
+      }
+      .fly {
+        position: absolute;
+        top: 50%;
+        left: 170px;
+        transform: translateY(-50%);
+        animation: travel 3.4s var(--ease) infinite;
+      }
+      .fly.f2 {
+        animation-delay: -1.7s;
+      }
+      .fly.back {
+        animation-name: travel-back;
+        animation-delay: -0.85s;
+      }
+      .fly.back.f4 {
+        animation-delay: -2.55s;
+      }
+      @keyframes travel {
+        0% {
+          left: 170px;
+          opacity: 0;
+          transform: translateY(-50%) scale(0.7);
+        }
+        12% {
+          opacity: 1;
+          transform: translateY(-50%) scale(1);
+        }
+        88% {
+          opacity: 1;
+        }
+        100% {
+          left: calc(100% - 208px);
+          opacity: 0;
+          transform: translateY(-50%) scale(0.7);
+        }
+      }
+      @keyframes travel-back {
+        0% {
+          left: calc(100% - 208px);
+          opacity: 0;
+          transform: translateY(-50%) scale(0.7);
+        }
+        12% {
+          opacity: 1;
+          transform: translateY(-50%) scale(1);
+        }
+        88% {
+          opacity: 1;
+        }
+        100% {
+          left: 170px;
+          opacity: 0;
+          transform: translateY(-50%) scale(0.7);
+        }
+      }
+      .chip {
         display: inline-flex;
         align-items: center;
-        gap: 14px;
+        gap: 7px;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 6px 13px 6px 8px;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: #34363b;
+        box-shadow: 0 8px 22px -8px rgba(31, 38, 71, 0.28);
+        white-space: nowrap;
+      }
+      .chip i {
+        width: 22px;
+        height: 22px;
+        border-radius: 7px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-style: normal;
+      }
+      .chip.blue i {
+        background: linear-gradient(140deg, #0d7cf5, var(--blue-deep));
+      }
+      .chip.violet i {
+        background: linear-gradient(140deg, #8b5cf6, var(--violet));
+      }
+      .chip.teal i {
+        background: linear-gradient(140deg, #14b8a6, #0d9488);
+      }
+      .chip.amber i {
+        background: linear-gradient(140deg, #f59e0b, #d97706);
+      }
+      .chip svg {
+        width: 12px;
+        height: 12px;
+      }
+      .stage .cap {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -6px;
+        text-align: center;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      /* ---------- download ---------- */
+      .dl-zone {
+        margin-top: 44px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+      #dl {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 15px;
         background: linear-gradient(180deg, #0d7cf5, var(--blue-deep));
         color: #fff;
         font-size: 18px;
         font-weight: 650;
-        padding: 18px 34px;
-        border-radius: 16px;
+        padding: 19px 38px;
+        border-radius: 18px;
         text-decoration: none;
+        overflow: hidden;
         box-shadow:
-          0 10px 28px #0674ed45,
-          inset 0 1px 0 #ffffff33;
+          0 14px 34px -8px #0674ed66,
+          inset 0 1px 0 #ffffff38;
         transition:
-          transform 0.15s ease,
-          box-shadow 0.15s ease;
+          transform 0.25s var(--ease),
+          box-shadow 0.25s var(--ease);
+      }
+      #dl::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(110deg, transparent 30%, #ffffff2e 50%, transparent 68%);
+        transform: translateX(-130%);
+        transition: transform 0.7s var(--ease);
       }
       #dl:hover {
-        transform: translateY(-2px);
+        transform: translateY(-2px) scale(1.015);
         box-shadow:
-          0 14px 34px #0674ed55,
-          inset 0 1px 0 #ffffff33;
+          0 20px 44px -8px #0674ed77,
+          inset 0 1px 0 #ffffff38;
+      }
+      #dl:hover::before {
+        transform: translateX(130%);
       }
       #dl:active {
-        transform: translateY(0);
+        transform: translateY(0) scale(0.99);
       }
       #dl svg {
         flex: none;
@@ -145,12 +518,14 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        line-height: 1.25;
+        line-height: 1.3;
+        position: relative;
       }
       #dl .meta small {
         font-size: 12.5px;
         font-weight: 500;
         opacity: 0.85;
+        font-variant-numeric: tabular-nums;
       }
       .dl-note {
         font-size: 14px;
@@ -164,108 +539,254 @@
       .dl-note a:hover {
         text-decoration: underline;
       }
+      .dots {
+        display: inline-flex;
+        gap: 3px;
+      }
+      .dots b {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: currentColor;
+        opacity: 0.35;
+        animation: blink 1.2s ease-in-out infinite;
+      }
+      .dots b:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .dots b:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 1;
+        }
+      }
 
-      .grid {
+      /* ---------- feature showcase ---------- */
+      .section-title {
+        text-align: center;
+        font-size: clamp(26px, 3.6vw, 38px);
+        font-weight: 720;
+        letter-spacing: -0.03em;
+        padding: 96px 0 12px;
+      }
+      .section-sub {
+        text-align: center;
+        color: var(--muted);
+        font-size: 17px;
+        max-width: 560px;
+        margin: 0 auto 44px;
+        line-height: 1.55;
+      }
+      .showcase {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 16px;
-        padding-bottom: 24px;
       }
-      @media (max-width: 760px) {
-        .grid {
+      @media (max-width: 820px) {
+        .showcase {
           grid-template-columns: 1fr;
         }
       }
-      .step {
+      .card {
         background: var(--card);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
         border: 1px solid var(--line);
-        border-radius: 18px;
-        padding: 24px;
+        border-radius: 22px;
+        padding: 26px;
+        transition:
+          transform 0.35s var(--ease),
+          box-shadow 0.35s var(--ease),
+          border-color 0.35s var(--ease);
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        border-color: #0674ed40;
+        box-shadow: 0 22px 44px -18px rgba(31, 38, 71, 0.22);
+      }
+      .card .ico {
+        width: 44px;
+        height: 44px;
+        border-radius: 13px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 16px;
+        color: #fff;
+      }
+      .card:nth-child(6n + 1) .ico {
+        background: linear-gradient(140deg, #0d7cf5, var(--blue-deep));
+      }
+      .card:nth-child(6n + 2) .ico {
+        background: linear-gradient(140deg, #8b5cf6, var(--violet));
+      }
+      .card:nth-child(6n + 3) .ico {
+        background: linear-gradient(140deg, #14b8a6, #0d9488);
+      }
+      .card:nth-child(6n + 4) .ico {
+        background: linear-gradient(140deg, #f59e0b, #d97706);
+      }
+      .card:nth-child(6n + 5) .ico {
+        background: linear-gradient(140deg, #ec4899, #db2777);
+      }
+      .card:nth-child(6n + 6) .ico {
+        background: linear-gradient(140deg, #38bdf8, #0284c7);
+      }
+      .card .ico svg {
+        width: 22px;
+        height: 22px;
+      }
+      .card h3 {
+        font-size: 17px;
+        letter-spacing: -0.015em;
+        margin-bottom: 7px;
+      }
+      .card p {
+        font-size: 14.5px;
+        line-height: 1.6;
+        color: var(--muted);
+      }
+      .card p code {
+        background: #f0f1f4;
+        border-radius: 6px;
+        padding: 1px 6px;
+        font-size: 12.5px;
+      }
+
+      /* ---------- steps ---------- */
+      .steps {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-top: 8px;
+      }
+      @media (max-width: 820px) {
+        .steps {
+          grid-template-columns: 1fr;
+        }
+        .steps::before {
+          display: none;
+        }
+      }
+      .steps::before {
+        content: "";
+        position: absolute;
+        top: 40px;
+        left: 14%;
+        right: 14%;
+        height: 1.5px;
+        background: linear-gradient(90deg, transparent, #0674ed45 25%, #7c3aed45 75%, transparent);
+      }
+      .step {
+        position: relative;
+        text-align: center;
+        padding: 8px 18px 4px;
       }
       .step .n {
+        position: relative;
+        z-index: 1;
         display: inline-grid;
         place-items: center;
-        width: 30px;
-        height: 30px;
+        width: 64px;
+        height: 64px;
         border-radius: 50%;
-        background: #0674ed14;
+        background: linear-gradient(160deg, #ffffff, #eef1f7);
+        border: 1px solid var(--line);
+        box-shadow: 0 10px 26px -10px rgba(31, 38, 71, 0.22);
         color: var(--blue-deep);
-        font-weight: 700;
-        font-size: 14px;
-        margin-bottom: 12px;
+        font-weight: 750;
+        font-size: 21px;
+        margin-bottom: 18px;
       }
       .step h3 {
-        font-size: 16.5px;
-        letter-spacing: -0.01em;
-        margin-bottom: 6px;
+        font-size: 17.5px;
+        letter-spacing: -0.015em;
+        margin-bottom: 8px;
       }
       .step p {
         font-size: 14.5px;
-        line-height: 1.55;
+        line-height: 1.6;
         color: var(--muted);
+        max-width: 280px;
+        margin: 0 auto;
       }
-      .step p code,
-      .notice code {
-        background: #f0f1f3;
+      .step p code {
+        background: #f0f1f4;
         border-radius: 6px;
         padding: 1px 6px;
-        font-size: 13px;
+        font-size: 12.5px;
       }
 
-      .feats {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-        padding: 28px 0 40px;
-      }
-      .pill {
-        background: var(--card);
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        padding: 8px 16px;
-        font-size: 13.5px;
-        font-weight: 600;
-        color: #34363b;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .pill svg {
-        color: var(--blue);
-      }
-
+      /* ---------- notice ---------- */
       .notice {
-        background: #fff8e6;
-        border: 1px solid #f0e0b0;
-        border-radius: 18px;
-        padding: 20px 24px;
+        background: linear-gradient(160deg, #fffdf5, #fff8e6);
+        border: 1px solid #f0e2b4;
+        border-radius: 22px;
+        padding: 24px 28px;
         font-size: 14.5px;
-        line-height: 1.6;
+        line-height: 1.65;
         color: #6b5510;
-        margin-bottom: 56px;
+        margin: 88px 0 64px;
       }
       .notice strong {
         color: #57430a;
       }
       .notice details {
-        margin-top: 8px;
+        margin-top: 10px;
       }
       .notice summary {
         cursor: pointer;
-        font-weight: 600;
+        font-weight: 650;
         color: #57430a;
+        list-style: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .notice summary::after {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-right: 1.8px solid currentColor;
+        border-bottom: 1.8px solid currentColor;
+        transform: rotate(45deg);
+        margin-top: -3px;
+        transition: transform 0.25s var(--ease);
+      }
+      .notice details[open] summary::after {
+        transform: rotate(-135deg);
+        margin-top: 3px;
+      }
+      .notice summary::-webkit-details-marker {
+        display: none;
       }
       .notice ul {
-        margin: 8px 0 0;
+        margin: 10px 0 2px;
         padding-left: 20px;
       }
+      .notice li + li {
+        margin-top: 6px;
+      }
+      .notice code {
+        background: #f5ead0;
+        border-radius: 6px;
+        padding: 1px 6px;
+        font-size: 12.5px;
+      }
 
+      /* ---------- footer ---------- */
       footer {
         border-top: 1px solid var(--line);
-        padding: 28px 0 44px;
+        padding: 30px 0 48px;
         font-size: 13.5px;
         color: var(--muted);
+      }
+      .foot-in {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0 24px;
         display: flex;
         flex-wrap: wrap;
         gap: 8px 24px;
@@ -275,6 +796,7 @@
       footer a {
         color: var(--blue);
         text-decoration: none;
+        font-weight: 500;
       }
       footer a:hover {
         text-decoration: underline;
@@ -284,149 +806,314 @@
         gap: 18px;
         flex-wrap: wrap;
       }
-
       .ver {
         font-variant-numeric: tabular-nums;
       }
       .hidden {
         display: none !important;
       }
+
+      @media (max-width: 640px) {
+        .stage {
+          height: 200px;
+        }
+        .dev {
+          width: 112px;
+        }
+        .dev .screen {
+          width: 112px;
+          height: 74px;
+        }
+        .dev .base {
+          width: 68px;
+        }
+        .dev.right .base {
+          width: 46px;
+          height: 20px;
+        }
+        .pulse {
+          width: 116px;
+          height: 116px;
+        }
+        .beam,
+        .fly {
+          left: 128px;
+        }
+        .beam {
+          right: 128px;
+        }
+        @keyframes travel {
+          0% {
+            left: 128px;
+            opacity: 0;
+            transform: translateY(-50%) scale(0.7);
+          }
+          12% {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+          }
+          88% {
+            opacity: 1;
+          }
+          100% {
+            left: calc(100% - 156px);
+            opacity: 0;
+            transform: translateY(-50%) scale(0.7);
+          }
+        }
+        @keyframes travel-back {
+          0% {
+            left: calc(100% - 156px);
+            opacity: 0;
+            transform: translateY(-50%) scale(0.7);
+          }
+          12% {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+          }
+          88% {
+            opacity: 1;
+          }
+          100% {
+            left: 128px;
+            opacity: 0;
+            transform: translateY(-50%) scale(0.7);
+          }
+        }
+        .chip {
+          font-size: 11px;
+          padding: 5px 10px 5px 6px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.001s !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001s !important;
+        }
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+        .fly {
+          display: none;
+        }
+      }
     </style>
   </head>
   <body>
-    <div class="aurora"></div>
-    <div class="wrap">
-      <header>
-        <div class="brand">
-          <img src="Flow.png" alt="Flow" />
-          Flow
+    <div class="ambient" aria-hidden="true"><i class="a"></i><i class="b"></i><i class="c"></i></div>
+
+    <nav id="nav">
+      <div class="nav-in">
+        <div class="brand"><img src="Flow.png" alt="Flow logo" />Flow</div>
+        <div class="nav-right">
+          <span class="badge">Engineering alpha</span>
+          <a class="nav-link" href="https://github.com/PlatiniumTermite/flow-downloads/releases">Releases</a>
         </div>
-        <span class="badge" id="badge">Engineering alpha</span>
-      </header>
+      </div>
+    </nav>
 
-      <main>
-        <section class="hero">
-          <h1>Your devices, <span>one continuous flow.</span></h1>
-          <p class="sub">
-            Files, folders, text, links, clipboard and screens — shared wirelessly between
-            your Mac and Windows PC. Like AirDrop, for every computer you own.
-          </p>
+    <main class="wrap">
+      <section class="hero">
+        <p class="eyebrow reveal in">Meet Flow</p>
+        <h1 class="reveal in" style="--d: 0.08s">Your devices,<br /><span>one continuous flow.</span></h1>
+        <p class="sub reveal in" style="--d: 0.16s">
+          Files, folders, text, links, clipboard and screens — moving wirelessly between
+          your Mac and Windows PC. Like AirDrop, for every computer you own.
+        </p>
 
-          <div class="dl-zone">
-            <a id="dl" href="#downloads" role="button">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 19h16"
-                  stroke="currentColor"
-                  stroke-width="2.2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <span class="meta">
-                <span id="dl-label">Download Flow</span>
-                <small id="dl-sub">Loading latest release…</small>
-              </span>
-            </a>
-            <p class="dl-note" id="other-note">Detecting your platform…</p>
+        <!-- animated device-to-device transfer visual -->
+        <div class="stage reveal in" style="--d: 0.24s" aria-hidden="true">
+          <div class="pulse left"></div>
+          <div class="pulse right"></div>
+
+          <div class="dev left">
+            <div class="screen">
+              <div class="os-dot">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 6.5c-1-1.6-3-2-4.4-1C5.4 7 5.4 10.6 7 13.7c.9 1.8 1.9 3.4 3 3.4 1 0 1.3-.7 2.6-.7s1.5.7 2.5.7c1.1 0 2.2-1.9 3-3.6-2-1-2.2-3.9-.2-4.9-.9-1.4-2.5-1.6-3.9-.9-.7.4-1.4.4-2 0z" fill="#1d1d1f"/><path d="M14.5 2.5c.2 1.5-.9 2.8-2.4 3-.1-1.5 1-2.8 2.4-3z" fill="#1d1d1f"/></svg>
+              </div>
+            </div>
+            <div class="base"></div>
+            <div class="name">MacBook</div>
           </div>
-        </section>
 
-        <section class="grid">
-          <div class="step">
-            <div class="n">1</div>
-            <h3>Install on both computers</h3>
-            <p>
-              One download each — a normal installer for Windows, drag-to-Applications on
-              Mac. No Node.js, no terminal.
-            </p>
+          <div class="beam"></div>
+
+          <div class="fly"><span class="chip blue"><i><svg viewBox="0 0 24 24" fill="none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="2"/></svg></i>report.pdf</span></div>
+          <div class="fly f2"><span class="chip violet"><i><svg viewBox="0 0 24 24" fill="none"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="2"/></svg></i>project/</span></div>
+          <div class="fly back"><span class="chip teal"><i><svg viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.2 1.1M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.1-1.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></i>link</span></div>
+          <div class="fly back f4"><span class="chip amber"><i><svg viewBox="0 0 24 24" fill="none"><rect x="6" y="6" width="12" height="12" rx="2" stroke="currentColor" stroke-width="2"/><rect x="3" y="3" width="12" height="12" rx="2" stroke="currentColor" stroke-width="2" opacity=".5"/></svg></i>clipboard</span></div>
+
+          <div class="dev right">
+            <div class="screen">
+              <div class="os-dot">
+                <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8.5" height="8.5" rx="1" fill="#0d7cf5"/><rect x="12.5" y="3" width="8.5" height="8.5" rx="1" fill="#0d7cf5" opacity=".8"/><rect x="3" y="12.5" width="8.5" height="8.5" rx="1" fill="#0d7cf5" opacity=".8"/><rect x="12.5" y="12.5" width="8.5" height="8.5" rx="1" fill="#0d7cf5"/></svg>
+              </div>
+            </div>
+            <div class="base"></div>
+            <div class="name">Windows PC</div>
           </div>
-          <div class="step">
-            <div class="n">2</div>
-            <h3>They find each other</h3>
-            <p>
-              On the same Wi-Fi, enable <code>Find nearby Flow computers</code> once — your
-              other computer then appears by name.
-            </p>
-          </div>
-          <div class="step">
-            <div class="n">3</div>
-            <h3>Tap, allow, done</h3>
-            <p>
-              Press <code>Connect</code> on one side, <code>Allow</code> on the other.
-              From then on, everything flows device-to-device.
-            </p>
-          </div>
-        </section>
 
-        <section class="feats">
-          <span class="pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.8"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.8"/></svg>
-            Any file</span>
-          <span class="pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="1.8"/></svg>
-            Whole folders &amp; projects</span>
-          <span class="pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="3" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.8" opacity=".45"/></svg>
-            Clipboard sync</span>
-          <span class="pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.2 1.1M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.1-1.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            Text &amp; links</span>
-          <span class="pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 20h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            Screen extension</span>
-          <span class="pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12a7 7 0 0 1 14 0M8.5 12a3.5 3.5 0 0 1 7 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="15" r="1.6" fill="currentColor"/></svg>
-            Nearby discovery</span>
-          <span class="pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h13m0 0l-3-3m3 3l-3 3M20 16H7m0 0l3 3m-3-3l3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Direct device-to-device</span>
-          <span class="pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Invitation-gated, encrypted</span>
-          <span class="pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M21 3v6h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Auto-reconnect after drops</span>
-        </section>
+          <p class="cap">Direct device-to-device · nothing touches the cloud</p>
+        </div>
 
-        <section class="notice" id="downloads">
-          <strong>Alpha builds — a heads-up before you install.</strong>
-          These are unsigned test builds, not a trusted-publisher release. Your OS may warn
-          the first time; this is expected for unsigned alpha software.
-          <details>
-            <summary>What to expect</summary>
-            <ul>
-              <li>
-                <strong>Windows:</strong> SmartScreen may show “Windows protected your PC”.
-                Choose <code>More info → Run anyway</code>.
-              </li>
-              <li>
-                <strong>Mac:</strong> if Gatekeeper blocks the first launch, right-click
-                Flow in Applications → <code>Open</code> → <code>Open</code> again.
-                Apple silicon Macs only.
-              </li>
-              <li>
-                Keep both computers on the same trusted Wi-Fi; allow Flow on your private
-                network if the firewall asks.
-              </li>
-            </ul>
-          </details>
-        </section>
-      </main>
+        <div class="dl-zone reveal in" style="--d: 0.32s">
+          <a id="dl" href="#downloads" role="button">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 19h16"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="meta">
+              <span id="dl-label">Download Flow</span>
+              <small id="dl-sub">Finding latest release <span class="dots"><b></b><b></b><b></b></span></small>
+            </span>
+          </a>
+          <p class="dl-note" id="other-note">Detecting your platform…</p>
+        </div>
+      </section>
 
-      <footer>
-        <span>Flow <span class="ver" id="ver"></span> · Engineering alpha · <a id="release-link" href="https://github.com/PlatiniumTermite/flow-downloads/releases">Release notes</a></span>
+      <h2 class="section-title reveal">Everything moves with you.</h2>
+      <p class="section-sub reveal" style="--d: 0.06s">
+        One install on each computer and they behave like one device — no cables,
+        no uploads, no accounts.
+      </p>
+
+      <section class="showcase">
+        <div class="card reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.8"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.8"/></svg></div>
+          <h3>Any file, any size</h3>
+          <p>Documents, media, archives, code — one transport, integrity-verified, up to your disk quota.</p>
+        </div>
+        <div class="card reveal" style="--d: 0.06s">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="1.8"/></svg></div>
+          <h3>Whole projects</h3>
+          <p>Drop an entire folder — up to 500 files queued, relative paths preserved, one Accept-all.</p>
+        </div>
+        <div class="card reveal" style="--d: 0.12s">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><rect x="6" y="6" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="3" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.8" opacity=".45"/></svg></div>
+          <h3>Shared clipboard</h3>
+          <p>Copy on the Mac, paste on the PC. Opt-in text clipboard sync while the space is open.</p>
+        </div>
+        <div class="card reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l2.5 2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <h3>Self-healing connections</h3>
+          <p>Wi-Fi drops mid-transfer? Flow reconnects itself and re-offers interrupted files.</p>
+        </div>
+        <div class="card reveal" style="--d: 0.06s">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12a7 7 0 0 1 14 0M8.5 12a3.5 3.5 0 0 1 7 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="15" r="1.6" fill="currentColor"/></svg></div>
+          <h3>Nearby by name</h3>
+          <p>Your computers discover each other on the same Wi-Fi — tap Connect, tap Allow, done.</p>
+        </div>
+        <div class="card reveal" style="--d: 0.12s">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Private by design</h3>
+          <p>Secrets are never broadcast — the host approves each pairing. Data travels device-to-device.</p>
+        </div>
+      </section>
+
+      <h2 class="section-title reveal">Three steps. That’s it.</h2>
+      <section class="steps">
+        <div class="step reveal">
+          <div class="n">1</div>
+          <h3>Install on both computers</h3>
+          <p>A normal installer on Windows, drag-to-Applications on Mac. No Node.js, no terminal.</p>
+        </div>
+        <div class="step reveal" style="--d: 0.08s">
+          <div class="n">2</div>
+          <h3>They find each other</h3>
+          <p>Same Wi-Fi, then enable <code>Find nearby Flow computers</code> once on each machine.</p>
+        </div>
+        <div class="step reveal" style="--d: 0.16s">
+          <div class="n">3</div>
+          <h3>Tap, allow, done</h3>
+          <p>Press <code>Connect</code> on one side, <code>Allow</code> on the other. Everything flows from there.</p>
+        </div>
+      </section>
+
+      <section class="notice reveal" id="downloads">
+        <strong>Alpha builds — a heads-up before you install.</strong>
+        These are unsigned test builds, not a trusted-publisher release. Your OS may warn
+        the first time; this is expected for unsigned alpha software.
+        <details>
+          <summary>What to expect</summary>
+          <ul>
+            <li>
+              <strong>Windows:</strong> SmartScreen may show “Windows protected your PC”.
+              Choose <code>More info → Run anyway</code>.
+            </li>
+            <li>
+              <strong>Mac:</strong> if Gatekeeper blocks the first launch, right-click
+              Flow in Applications → <code>Open</code> → <code>Open</code> again.
+              Apple silicon Macs only.
+            </li>
+            <li>
+              Keep both computers on the same trusted Wi-Fi; allow Flow on your private
+              network if the firewall asks.
+            </li>
+          </ul>
+        </details>
+      </section>
+    </main>
+
+    <footer>
+      <div class="foot-in">
+        <span>
+          Flow <span class="ver" id="ver"></span> · Engineering alpha ·
+          <a id="release-link" href="https://github.com/PlatiniumTermite/flow-downloads/releases">Release notes</a>
+        </span>
         <span class="links">
           <a id="win-link" href="#downloads" class="hidden">Windows .exe</a>
           <a id="mac-link" href="#downloads" class="hidden">Mac .dmg</a>
           <a id="sums-link" href="#downloads" class="hidden">SHA-256</a>
           <a href="https://github.com/PlatiniumTermite/flow-downloads/releases">All releases</a>
         </span>
-      </footer>
-    </div>
+      </div>
+    </footer>
 
     <script>
       (function () {
+        // frosted nav shadow on scroll
+        var nav = document.getElementById("nav");
+        var onScroll = function () {
+          nav.classList.toggle("scrolled", window.scrollY > 8);
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+
+        // scroll reveal
+        if ("IntersectionObserver" in window) {
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (e) {
+                if (e.isIntersecting) {
+                  e.target.classList.add("in");
+                  io.unobserve(e.target);
+                }
+              });
+            },
+            { threshold: 0.12 },
+          );
+          document.querySelectorAll(".reveal:not(.in)").forEach(function (el) {
+            io.observe(el);
+          });
+        } else {
+          document.querySelectorAll(".reveal").forEach(function (el) {
+            el.classList.add("in");
+          });
+        }
+
         var REPO = "PlatiniumTermite/flow-downloads";
         var API = "https://api.github.com/repos/" + REPO + "/releases?per_page=10";
         var dl = document.getElementById("dl");
@@ -456,16 +1143,14 @@
           var win = null;
           var mac = null;
           var sums = null;
-          var start = null;
           for (var i = 0; i < assets.length; i++) {
             var a = assets[i];
             var n = a.name.toLowerCase();
             if (n.indexOf("windows") !== -1 && n.slice(-4) === ".exe") win = a;
             else if (n.indexOf("mac") !== -1 && n.slice(-4) === ".dmg") mac = a;
             else if (n === "sha256sums.txt") sums = a;
-            else if (n === "start-here.md") start = a;
           }
-          return { win: win, mac: mac, sums: sums, start: start };
+          return { win: win, mac: mac, sums: sums };
         }
 
         function apply(release) {
