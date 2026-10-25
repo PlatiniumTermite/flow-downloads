@@ -16,11 +16,13 @@ Everything runs on your local network over WebRTC — no accounts, nothing uploa
 
 ## Downloads
 
+[Download the latest release directly from GitHub](https://github.com/PlatiniumTermite/flow-downloads/releases/latest).
+
 - `Flow-*-Windows-x64-Setup.exe` — Windows x64 installer
 - `Flow-*-Mac-arm64.dmg` — Apple silicon Mac disk image
 - `Flow-*-Mac-x64.dmg` — Intel Mac disk image
 - `Flow-*-Android.apk` — Android app
-- `START-HERE.md` — full install and pairing guide
+- `INSTALL.md` — full install and pairing guide
 - `SHA256SUMS.txt` — integrity checksums
 
-Unsigned alpha builds: your OS may warn on first launch — see START-HERE.md in the latest release for the exact clicks. Source code: [PlatiniumTermite/flow](https://github.com/PlatiniumTermite/flow).
+Unsigned alpha builds: your OS may warn on first launch — see INSTALL.md in the latest release for the exact clicks. Source code: [PlatiniumTermite/flow](https://github.com/PlatiniumTermite/flow).
