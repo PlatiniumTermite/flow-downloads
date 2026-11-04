@@ -16,6 +16,8 @@ Everything runs on your local network over WebRTC — no accounts, nothing uploa
 
 ## Downloads
 
+**[Windows 0.6.16 installer](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.16/Flow-0.6.16-Windows-x64-Setup.exe)** — connection update for isolated Wi-Fi. Install, reopen Flow, then share **Connect a device → Internet invitation**. [Release notes](https://github.com/PlatiniumTermite/flow-downloads/releases/tag/v0.6.16).
+
 [Download the latest release directly from GitHub](https://github.com/PlatiniumTermite/flow-downloads/releases/latest).
 
 - `Flow-*-Windows-x64-Setup.exe` — Windows x64 installer
