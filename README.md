@@ -16,7 +16,9 @@ Flow uses direct WebRTC when reachable. On isolated networks, Internet invitatio
 
 ## Downloads
 
-**[Windows 0.6.16 installer](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.16/Flow-0.6.16-Windows-x64-Setup.exe)** — connection update for isolated Wi-Fi. Install, reopen Flow, then share **Connect a device → Internet invitation**. [Release notes](https://github.com/PlatiniumTermite/flow-downloads/releases/tag/v0.6.16).
+**[Windows 0.6.18 installer](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.18/Flow-0.6.18-Windows-x64-Setup.exe)** — native setup and connection update. Install on both computers, follow **Device setup**, then approve your first connection. On isolated Wi-Fi, use **Connect a device → Internet invitation**. [Release notes](https://github.com/PlatiniumTermite/flow-downloads/releases/tag/v0.6.18).
+
+**[Mac Apple silicon](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.18/Flow-0.6.18-Mac-arm64.dmg)** · **[Mac Intel](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.18/Flow-0.6.18-Mac-x64.dmg)**
 
 [Download the latest release directly from GitHub](https://github.com/PlatiniumTermite/flow-downloads/releases/latest).
 
