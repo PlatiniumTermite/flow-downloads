@@ -12,7 +12,7 @@ Flow is a free, open alternative to AirDrop, LocalSend, KDE Connect, Snapdrop an
 - **Menu-bar / system-tray agent** — discovery and sharing keep working without a window open
 - iPhone and iPad join through Safari; a native iOS app is planned
 
-Everything runs on your local network over WebRTC — no accounts, nothing uploaded to a cloud.
+Flow uses direct WebRTC when reachable. On isolated networks, Internet invitations use a public HTTPS tunnel and data can fall back to the signaling relay. Screen video still requires a working WebRTC media route. No account is required.
 
 ## Downloads
 
