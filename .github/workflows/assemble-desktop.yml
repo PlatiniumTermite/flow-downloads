@@ -12,7 +12,20 @@ jobs:
       GH_REPO: PlatiniumTermite/flow-downloads
     steps:
       - name: Fetch temporary upload parts
-        run: gh release download v0.6.19 --pattern '_upload-*' --dir parts
+        shell: python
+        run: |
+          import subprocess, json, pathlib, concurrent.futures
+          release = json.loads(subprocess.check_output(['gh', 'api', 'repos/PlatiniumTermite/flow-downloads/releases/tags/v0.6.19'], text=True))
+          assert release['draft']
+          pages = json.loads(subprocess.check_output(['gh', 'api', f"repos/PlatiniumTermite/flow-downloads/releases/{release['id']}/assets?per_page=100", '--paginate', '--slurp'], text=True))
+          root = pathlib.Path('parts'); root.mkdir()
+          assets = [a for page in pages for a in page if a['name'].startswith('_upload-')]
+          def download(asset):
+            assert pathlib.Path(asset['name']).name == asset['name']
+            with (root / asset['name']).open('wb') as output:
+              subprocess.run(['gh', 'api', asset['url'], '-H', 'Accept: application/octet-stream'], stdout=output, check=True)
+          with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+            list(pool.map(download, assets))
       - name: Verify every part and assemble the original installers
         shell: python
         run: |
@@ -44,7 +57,8 @@ jobs:
           manifest = json.loads(pathlib.Path('parts/_upload-manifest.json').read_text())
           release = json.loads(subprocess.check_output(['gh', 'api', 'repos/PlatiniumTermite/flow-downloads/releases/tags/v0.6.19'], text=True))
           assert release['draft'], 'This workflow only prepares draft releases'
-          assets = {a['name']: a for a in release['assets']}
+          pages = json.loads(subprocess.check_output(['gh', 'api', f"repos/PlatiniumTermite/flow-downloads/releases/{release['id']}/assets?per_page=100", '--paginate', '--slurp'], text=True))
+          assets = {a['name']: a for page in pages for a in page}
           for file in manifest['files']:
             asset = assets[file['name']]
             assert asset['state'] == 'uploaded'
