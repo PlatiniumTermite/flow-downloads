@@ -1,0 +1,56 @@
+name: Assemble verified desktop downloads
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: PlatiniumTermite/flow-downloads
+    steps:
+      - name: Fetch temporary upload parts
+        run: gh release download v0.6.19 --pattern '_upload-*' --dir parts
+      - name: Verify every part and assemble the original installers
+        shell: python
+        run: |
+          import json, hashlib, pathlib, re
+          root = pathlib.Path('parts')
+          manifest = json.loads((root / '_upload-manifest.json').read_text())
+          assert manifest['version'] == '0.6.19'
+          expected = {'Flow-0.6.19-Mac-arm64.dmg', 'Flow-0.6.19-Mac-x64.dmg', 'Flow-0.6.19-Windows-x64-Setup.exe'}
+          assert {f['name'] for f in manifest['files']} == expected
+          out = pathlib.Path('verified'); out.mkdir()
+          for file in manifest['files']:
+            target = out / file['name']
+            digest = hashlib.sha256()
+            with target.open('wb') as dest:
+              for index, part in enumerate(file['parts']):
+                assert part['name'] == f"_upload-{file['name']}.{index:03}"
+                data = (root / part['name']).read_bytes()
+                assert hashlib.sha256(data).hexdigest() == part['sha256']
+                digest.update(data); dest.write(data)
+            assert target.stat().st_size == file['size']
+            assert digest.hexdigest() == file['sha256']
+            print('Verified original installer:', target.name)
+      - name: Upload verified complete installers to the draft release
+        run: gh release upload v0.6.19 verified/* --clobber
+      - name: Verify uploaded files and remove temporary parts
+        shell: python
+        run: |
+          import subprocess, json, pathlib
+          manifest = json.loads(pathlib.Path('parts/_upload-manifest.json').read_text())
+          release = json.loads(subprocess.check_output(['gh', 'api', 'repos/PlatiniumTermite/flow-downloads/releases/tags/v0.6.19'], text=True))
+          assert release['draft'], 'This workflow only prepares draft releases'
+          assets = {a['name']: a for a in release['assets']}
+          for file in manifest['files']:
+            asset = assets[file['name']]
+            assert asset['state'] == 'uploaded'
+            assert asset['size'] == file['size']
+            assert asset['digest'] == 'sha256:' + file['sha256']
+          for name, asset in assets.items():
+            if name.startswith('_upload-'):
+              subprocess.run(['gh', 'api', '--method', 'DELETE', f"repos/PlatiniumTermite/flow-downloads/releases/assets/{asset['id']}"], check=True)
+          print('All complete installers verified; temporary upload parts removed')
