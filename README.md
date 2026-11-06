@@ -2,10 +2,10 @@
 
 **[Download Flow →](https://platiniumtermite.github.io)**
 
-Flow is a free, open alternative to AirDrop, LocalSend, KDE Connect, Snapdrop and AirDroid. Devices on the same Wi-Fi discover each other automatically, pair only with approval, and share everything wirelessly between Mac, Windows PC and Android:
+Flow is an early continuity app for Mac, Windows PC and Android. Devices discover each other when the network allows it and pair with approval:
 
-- **AirDrop-style file sharing** — files, folders, text and links in both directions, with progress, resume and multiple recipients
-- **Universal clipboard sync** — copied text and images move instantly between desktops, like Apple's Universal Clipboard
+- **AirDrop-style file sharing** — files, folders, text and links in both directions, with progress, interrupted-transfer retry and multiple recipients
+- **Universal clipboard sync** — copied text, images and supported files sync between connected desktops
 - **Screen sharing** — view another computer's screen after explicit approval
 - **Extended display** — use a second computer as an extra monitor over Wi-Fi (experimental)
 - **Keyboard & mouse link** — drive a connected computer from either side, like Universal Control
@@ -16,9 +16,9 @@ Flow uses direct WebRTC when reachable. On isolated networks, Internet invitatio
 
 ## Downloads
 
-**[Windows 0.6.18 installer](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.18/Flow-0.6.18-Windows-x64-Setup.exe)** — native setup and connection update. Install on both computers, follow **Device setup**, then approve your first connection. On isolated Wi-Fi, use **Connect a device → Internet invitation**. [Release notes](https://github.com/PlatiniumTermite/flow-downloads/releases/tag/v0.6.18).
+**[Windows 0.6.19 installer](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.19/Flow-0.6.19-Windows-x64-Setup.exe)** — Internet connection and discovery fixes. Install on both computers, follow **Device setup**, then approve your first connection. On isolated Wi-Fi, use **Connect a device → Internet invitation**. [Release notes](https://github.com/PlatiniumTermite/flow-downloads/releases/tag/v0.6.19).
 
-**[Mac Apple silicon](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.18/Flow-0.6.18-Mac-arm64.dmg)** · **[Mac Intel](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.18/Flow-0.6.18-Mac-x64.dmg)**
+**[Mac Apple silicon](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.19/Flow-0.6.19-Mac-arm64.dmg)** · **[Mac Intel](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.19/Flow-0.6.19-Mac-x64.dmg)**
 
 [Download the latest release directly from GitHub](https://github.com/PlatiniumTermite/flow-downloads/releases/latest).
 
