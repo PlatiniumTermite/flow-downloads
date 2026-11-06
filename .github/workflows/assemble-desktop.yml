@@ -15,7 +15,7 @@ jobs:
         shell: python
         run: |
           import subprocess, json, pathlib, concurrent.futures
-          release = json.loads(subprocess.check_output(['gh', 'api', 'repos/PlatiniumTermite/flow-downloads/releases/434522844'], text=True))
+          release = json.loads(subprocess.check_output(['gh', 'api', 'repos/PlatiniumTermite/flow-downloads/releases/436094461'], text=True))
           assert release['draft']
           pages = json.loads(subprocess.check_output(['gh', 'api', f"repos/PlatiniumTermite/flow-downloads/releases/{release['id']}/assets?per_page=100", '--paginate', '--slurp'], text=True))
           root = pathlib.Path('parts'); root.mkdir()
@@ -32,8 +32,8 @@ jobs:
           import json, hashlib, pathlib, re
           root = pathlib.Path('parts')
           manifest = json.loads((root / '_upload-manifest.json').read_text())
-          assert manifest['version'] == '0.6.19'
-          expected = {'Flow-0.6.19-Mac-arm64.dmg', 'Flow-0.6.19-Mac-x64.dmg', 'Flow-0.6.19-Windows-x64-Setup.exe'}
+          assert manifest['version'] == '0.6.20'
+          expected = {'Flow-0.6.20-Mac-arm64.dmg', 'Flow-0.6.20-Mac-x64.dmg', 'Flow-0.6.20-Windows-x64-Setup.exe'}
           assert {f['name'] for f in manifest['files']} == expected
           out = pathlib.Path('verified'); out.mkdir()
           for file in manifest['files']:
@@ -49,13 +49,13 @@ jobs:
             assert digest.hexdigest() == file['sha256']
             print('Verified original installer:', target.name)
       - name: Upload verified complete installers to the draft release
-        run: gh release upload v0.6.19 verified/* --clobber
+        run: gh release upload v0.6.20 verified/* --clobber
       - name: Verify uploaded files and remove temporary parts
         shell: python
         run: |
           import subprocess, json, pathlib
           manifest = json.loads(pathlib.Path('parts/_upload-manifest.json').read_text())
-          release = json.loads(subprocess.check_output(['gh', 'api', 'repos/PlatiniumTermite/flow-downloads/releases/434522844'], text=True))
+          release = json.loads(subprocess.check_output(['gh', 'api', 'repos/PlatiniumTermite/flow-downloads/releases/436094461'], text=True))
           assert release['draft'], 'This workflow only prepares draft releases'
           pages = json.loads(subprocess.check_output(['gh', 'api', f"repos/PlatiniumTermite/flow-downloads/releases/{release['id']}/assets?per_page=100", '--paginate', '--slurp'], text=True))
           assets = {a['name']: a for page in pages for a in page}
