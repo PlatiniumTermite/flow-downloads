@@ -16,9 +16,9 @@ Flow uses direct WebRTC when reachable. On isolated networks, Internet invitatio
 
 ## Downloads
 
-**[Windows 0.6.19 installer](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.19/Flow-0.6.19-Windows-x64-Setup.exe)** — Internet connection and discovery fixes. Install on both computers, follow **Device setup**, then approve your first connection. On isolated Wi-Fi, use **Connect a device → Internet invitation**. [Release notes](https://github.com/PlatiniumTermite/flow-downloads/releases/tag/v0.6.19).
+**[Windows 0.6.20 installer](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.20/Flow-0.6.20-Windows-x64-Setup.exe)** — Internet connection and discovery fixes. Install on both computers, follow **Device setup**, then approve your first connection. On isolated Wi-Fi, use **Connect a device → Internet invitation**. [Release notes](https://github.com/PlatiniumTermite/flow-downloads/releases/tag/v0.6.20).
 
-**[Mac Apple silicon](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.19/Flow-0.6.19-Mac-arm64.dmg)** · **[Mac Intel](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.19/Flow-0.6.19-Mac-x64.dmg)**
+**[Mac Apple silicon](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.20/Flow-0.6.20-Mac-arm64.dmg)** · **[Mac Intel](https://github.com/PlatiniumTermite/flow-downloads/releases/download/v0.6.20/Flow-0.6.20-Mac-x64.dmg)**
 
 [Download the latest release directly from GitHub](https://github.com/PlatiniumTermite/flow-downloads/releases/latest).
 
