@@ -15,7 +15,7 @@ jobs:
         shell: python
         run: |
           import subprocess, json, pathlib, concurrent.futures
-          release = json.loads(subprocess.check_output(['gh', 'api', 'repos/PlatiniumTermite/flow-downloads/releases/tags/v0.6.19'], text=True))
+          release = json.loads(subprocess.check_output(['gh', 'api', 'repos/PlatiniumTermite/flow-downloads/releases/434522844'], text=True))
           assert release['draft']
           pages = json.loads(subprocess.check_output(['gh', 'api', f"repos/PlatiniumTermite/flow-downloads/releases/{release['id']}/assets?per_page=100", '--paginate', '--slurp'], text=True))
           root = pathlib.Path('parts'); root.mkdir()
@@ -55,7 +55,7 @@ jobs:
         run: |
           import subprocess, json, pathlib
           manifest = json.loads(pathlib.Path('parts/_upload-manifest.json').read_text())
-          release = json.loads(subprocess.check_output(['gh', 'api', 'repos/PlatiniumTermite/flow-downloads/releases/tags/v0.6.19'], text=True))
+          release = json.loads(subprocess.check_output(['gh', 'api', 'repos/PlatiniumTermite/flow-downloads/releases/434522844'], text=True))
           assert release['draft'], 'This workflow only prepares draft releases'
           pages = json.loads(subprocess.check_output(['gh', 'api', f"repos/PlatiniumTermite/flow-downloads/releases/{release['id']}/assets?per_page=100", '--paginate', '--slurp'], text=True))
           assets = {a['name']: a for page in pages for a in page}
